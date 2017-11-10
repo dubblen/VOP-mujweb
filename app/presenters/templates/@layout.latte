@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+
+	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
+
+
+</head>
+
+<body>
+
+    <div class="flash-container">
+        {foreach $flashes as $flash}
+            <div class="alert flash alert-{$flash->type}">{$flash->message}</div>
+        {/foreach}
+    </div>
+
+
+	{include content}
+
+	{block scripts}
+	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
+	{/block}
+
+
+</body>
+</html>

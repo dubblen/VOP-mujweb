@@ -1,0 +1,34 @@
+{* This is the welcome page, you can delete it *}
+
+{block content}
+
+    <div>
+        {foreach $articles as $article}
+            {$article->title}<br>
+            {$article->content}<br><br>
+        {/foreach}
+    </div>
+
+    {form addArticleForm}
+        <table>
+            <tr>
+                <td>{label title}</td>
+                <td>{input title}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {input content}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {input add}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {input image}
+                </td>
+            </tr>
+        </table>
+    {/form}
