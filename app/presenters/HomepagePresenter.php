@@ -6,6 +6,7 @@ use Nette;
 use Nette\Database\Context;
 use Tracy\Debugger;
 use Nette\Http\Session;
+use Nette\Security\User;
 
 
 
@@ -13,11 +14,13 @@ class HomepagePresenter extends BasePresenter
 {
 
 	private $database;
+	private $user;
 
-	public function __construct(Context $database, Session $session)
+	public function __construct(Context $database, Session $session, User $user)
 	{
-		parent::__construct($database, $session);
+		parent::__construct($database, $session, $user);
 		$this->database = $database;
+		$this->user = $user;
 	}
 
 
@@ -29,6 +32,12 @@ class HomepagePresenter extends BasePresenter
 
 	public function renderProfile() {
 
+	}
+
+	public function actionLogIn() {
+		$this->user->login('admin', 'admin');
+		$this->flashMessage("Příhlášení proběhlo v pořáku");
+		$this->redirect('Homepage:default');
 	}
 
 	protected function createComponentAddArticleForm() {

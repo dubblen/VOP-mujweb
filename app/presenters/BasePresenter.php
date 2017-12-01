@@ -5,7 +5,7 @@ namespace App\Presenters;
 use Nette;
 use Nette\Database\Context;
 use Nette\Http\Session;
-use Tracy\Debugger;
+use Nette\Security\User;
 
 
 class BasePresenter extends Nette\Application\UI\Presenter
@@ -14,21 +14,21 @@ class BasePresenter extends Nette\Application\UI\Presenter
 	private $database;
 	private $session;
 	private $visitedSection;
+	private $user;
 
-	public function __construct(Context $database, Session $session)
+	public function __construct(Context $database, Session $session, User $user)
 	{
+		$this->user = $user;
 		$this->database = $database;
 		$this->session = $session;
 		$this->visitedSection = $this->session->getSection("visited");
 	}
 
-	public function beforeRender()
+	public function inject()
 	{
-		if (!is_array($this->visitedSection->pages)) {
-			$this->visitedSection->pages = [];
-		}
-		$currentLink = $this->getName() . ":" .$this->view;
-		$this->visitedSection->pages[] = $currentLink;
-		Debugger::dump($this->visitedSection->pages);
+		$authenticator = new Nette\Security\SimpleAuthenticator([
+			'admin' => 'admin'
+		]);
+		$this->user->setAuthenticator($authenticator);
 	}
 }
